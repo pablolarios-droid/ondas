@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>onda</title>
+  <style>
+    body {
+      margin: 0;
+      background: url('fondo.jpg') center center / cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    canvas {
+      display: block;
+      background: transparent;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="1600" height="650"></canvas>
+
+  <script>
+    window.onload = function () {
+      const canvas = document.getElementById('canvas');
+      const context = canvas.getContext('2d');
+      const ball = new Image();
+      ball.src = "planeta.webp";
+
+      const baseX = canvas.width / 2;
+      const baseY = canvas.height / 2;
+
+      const amplitudeX = 500;  
+      const amplitudeY = 40;   
+      const speed = 0.02;     
+
+      let angle = 0;
+      const baseScale = 0.7;       
+      const scaleVariation = 0.1; 
+
+      ball.onload = function () {
+        function drawFrame() {
+          requestAnimationFrame(drawFrame);
+          context.clearRect(0, 0, canvas.width, canvas.height);
+
+
+          const x = baseX + Math.cos(angle) * amplitudeX; // COSENO
+          const y = baseY + Math.sin(angle) * amplitudeY; // SENO
+
+
+          const scale = baseScale + Math.sin(angle) * scaleVariation;
+
+          const newW = ball.width * scale;
+          const newH = ball.height * scale;
+
+          context.drawImage(ball, x - newW / 2, y - newH / 2, newW, newH);
+
+          angle += speed;
+        }
+        drawFrame();
+      };
+    };
+  </script>
+</body>
+</html>
